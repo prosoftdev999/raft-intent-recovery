@@ -1,0 +1,23 @@
+{
+  "initial_control_lease": {
+    "active_from": 0,
+    "holder": "node-a",
+    "lease_epoch": 1,
+    "lease_token": "lease-01-86f1"
+  },
+  "initial_ranges": [
+    {
+      "active_from": 0,
+      "end_key": "k900",
+      "range_id": "r1",
+      "start_key": "k000"
+    }
+  ],
+  "initial_voters": [
+    "node-a",
+    "node-b"
+  ],
+  "snapshot_index": 100,
+  "snapshot_payload_hash": "6727e00b535190add4fc1ae10f7d6bafa9e8d61cae3045e2915891eacc4bd139",
+  "snapshot_term": 7
+}

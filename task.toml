@@ -1,0 +1,30 @@
+artifacts = ["/app/output/recovered_audit.json"]
+
+[task]
+name = "afterquery/raft-intent-recovery"
+
+[metadata]
+author_name = "Thomas Morison"
+author_email = "matiasv931026@gmail.com"
+difficulty_explanation = "The reconstruction crosses several dependent database layers rather than applying one rule table. The control history must first be recovered from damaged binary WAL segments whose overlapping copies, CRC failures, hash-linked predecessors, and joint-consensus membership changes determine which range and lease events are durable. That historical descriptor state then decides which lease-fenced coordinator observations are authoritative and which participant acknowledgements belong to the range that owned a key at the acknowledgement time. STAGING outcomes additionally depend on matching the acknowledgement to an actual physical intent digest, while final_seq and rolled-back mutation intervals govern which intents survive. Historical reads must then combine those recovered transaction outcomes with split/merge ownership, inherited physical extracts, point MVCC versions, and range tombstones. A two-of-three quorum shortcut advances onto an undurable repair branch; final-state ownership accepts r90/r91 repair data; ignoring rollback intervals resurrects discarded mutations; acknowledgement-only STAGING recovery accepts fabricated proof; and ignoring range tombstones returns values that were deleted across descriptor boundaries. The dataset is synthetic, but its WAL framing, replica divergence, joint-membership transition, lease fencing, parallel-commit evidence, MVCC intent handling, and range-tombstone behavior are modeled after distributed SQL storage recovery. This work would typically be handled by a distributed-database or storage reliability engineer investigating inconsistent post-recovery audit reads. A focused expert should expect roughly eight hours to decode the capture, establish the durable history, implement the dependent transaction/MVCC reconstruction, and validate the boundary cases."
+solution_explanation = "The reference parses valid RWAL frames from all replica segments, deduplicates repeated physical copies per replica, and recovers the hash-linked contiguous log while applying stable and joint voter quorums as configuration entries become durable. It replays the resulting split, merge, and lease timeline, parses all MVCC range extracts, and uses the historical ownership map to validate lease-fenced coordinator observations and participant acknowledgements. STAGING transactions are promoted only when each required write has both a range-valid acknowledgement and a matching physical intent digest. The recovered transaction attempt carries final-sequence and rollback-interval state into MVCC visibility. Historical point and scan requests are then evaluated against the range active at each timestamp, including point deletes and range tombstones. Every result is derived from solver-visible evidence; the reference contains no sealed expected answers."
+verification_explanation = "The verifier reads only /app/output/recovered_audit.json. It validates the documented JSON schema, normalizes list order and per-request row order, and compares the recovered durable control index, descriptor lifetimes, transaction outcomes, and historical request results with sealed expected semantics. Candidate code is never imported or executed, and no verifier truth is available in the agent environment. Missing, malformed, partial, shortcut-derived, or semantically incorrect artifacts fail; harmless JSON ordering differences are accepted. The harness initializes reward to 0 and writes 1 only after the complete pytest suite succeeds."
+category = "Software"
+subcategory = "Databases"
+tags = ["distributed-database", "mvcc", "raft", "incident-recovery"]
+expert_time_estimate_hours = 8.0
+relevant_experience = "Designed or operated replicated SQL storage systems, including Raft membership changes, WAL recovery, MVCC visibility, transaction intent resolution, lease fencing, and forensic analysis of divergent replica state."
+
+[verifier]
+timeout_sec = 120
+environment_mode = "separate"
+
+[agent]
+timeout_sec = 7200
+
+[environment]
+build_timeout_sec = 600
+cpus = 2
+memory_mb = 2048
+storage_mb = 4096
+gpus = 0

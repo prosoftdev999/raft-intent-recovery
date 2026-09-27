@@ -1,0 +1,10 @@
+{
+  "audit_requests": 270,
+  "capture_id": "rir-2026-09-18-b",
+  "control_encoding": "RWAL-v1",
+  "control_replicas": 3,
+  "coordinator_observations": 216,
+  "mvcc_extracts": 24,
+  "note": "Replica WAL segments may overlap and may contain invalid trailing or damaged frames; range extracts include retired and repair-branch ranges.",
+  "participant_acknowledgements": 127
+}

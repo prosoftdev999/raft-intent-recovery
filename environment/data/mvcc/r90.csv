@@ -1,0 +1,13 @@
+record_id,key,end_key,write_ts,kind,value,txn_id,txn_epoch,seq
+r90:repair:k300,k300,,535,PUT,repair-r90-k300,,,
+r90:repair:k320,k320,,535,PUT,repair-r90-k320,,,
+r90:repair:k340,k340,,535,PUT,repair-r90-k340,,,
+r90:repair:k360,k360,,535,PUT,repair-r90-k360,,,
+r90:repair:k380,k380,,535,PUT,repair-r90-k380,,,
+r90:repair:k400,k400,,535,PUT,repair-r90-k400,,,
+r90:repair:k420,k420,,535,PUT,repair-r90-k420,,,
+r90:repair:k440,k440,,535,PUT,repair-r90-k440,,,
+r90:repair:k460,k460,,535,PUT,repair-r90-k460,,,
+r90:repair:k480,k480,,535,PUT,repair-r90-k480,,,
+r90:repair:k500,k500,,535,PUT,repair-r90-k500,,,
+r90:repair:k520,k520,,535,PUT,repair-r90-k520,,,
